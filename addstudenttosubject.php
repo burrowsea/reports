@@ -1,5 +1,5 @@
 <?php
-header('Location:pupilstudies.php');
+header('Location:studentstudies.php');
 include_once('connection.php');
 array_map("htmlspecialchars", $_POST);
 #print_r($_POST);
