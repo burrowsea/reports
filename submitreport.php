@@ -108,12 +108,12 @@
 
         <!-- Link to View Reports -->
         <div class="link">
-            <a href="view_reports.php">View Existing Reports</a>
+            <a href="viewreports.php">View Existing Reports</a>
         </div>
 
         <!-- Report Submission Form -->
         <div class="form-section">
-            <form action="submit_report.php" method="POST">
+            <form action="submitreport.php" method="POST">
                 <label for="student">Select Student:</label>
                 <select name="student" required>
                     <?php
@@ -151,7 +151,9 @@
                     <button type="button" class="grade-button" onclick="setGrade('B')">B</button>
                     <button type="button" class="grade-button" onclick="setGrade('C')">C</button>
                     <button type="button" class="grade-button" onclick="setGrade('D')">D</button>
+                    <button type="button" class="grade-button" onclick="setGrade('E')">E</button>
                     <button type="button" class="grade-button" onclick="setGrade('F')">F</button>
+                    <button type="button" class="grade-button" onclick="setGrade('U')">U</button>
                 </div>
 
                 <input type="hidden" name="classgrade" id="classgrade">
