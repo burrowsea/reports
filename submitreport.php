@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Student Report</title>
     <style>
+        
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
@@ -106,19 +107,19 @@
     <div class="container">
         <h2>Submit Student Report</h2>
 
-        <!-- Link to View Reports -->
+        
         <div class="link">
             <a href="viewreports.php">View Existing Reports</a>
         </div>
 
-        <!-- Report Submission Form -->
+        
         <div class="form-section">
             <form action="submitreport.php" method="POST">
                 <label for="student">Select Student:</label>
                 <select name="student" required>
                     <?php
                     include_once("connection.php");
-                    // Get all students
+                    
                     $stmt = $conn->prepare("SELECT * FROM tblusers WHERE role=0 ORDER BY surname ASC");
                     $stmt->execute();
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -130,7 +131,7 @@
                 <label for="subject">Select Subject:</label>
                 <select name="subject" required>
                     <?php
-                    // Get all subjects
+                    
                     $stmt = $conn->prepare("SELECT * FROM tblsubjects ORDER BY subjectname ASC");
                     $stmt->execute();
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -165,10 +166,10 @@
             </form>
         </div>
 
-        <!-- Report Submission Confirmation -->
+        
         <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Handle the form submission and insert the report
+            
             $student = $_POST['student'];
             $subject = $_POST['subject'];
             $exammark = $_POST['exammark'];

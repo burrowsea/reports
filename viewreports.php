@@ -96,14 +96,14 @@
     <div class="container">
         <h2>View Student Reports</h2>
 
-        <!-- Report Form Section -->
+        >
         <div class="form-section">
             <form action="viewreports.php" method="POST">
                 <label for="student">Select Student:</label>
                 <select name="student" required>
                     <?php
                     include_once("connection.php");
-                    // Get all students
+                    
                     $stmt = $conn->prepare("SELECT * FROM tblusers WHERE role=0 ORDER BY surname ASC");
                     $stmt->execute();
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -115,12 +115,12 @@
             </form>
         </div>
 
-        <!-- Report Display Section -->
+        
         <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $student = $_POST['student'];
 
-            // Fetch reports for the selected student
+           
             $stmt = $conn->prepare("
                 SELECT tblsubjects.subjectname, tblpupilstudies.exammark, tblpupilstudies.classgrade, 
                 tblpupilstudies.classposition, tblpupilstudies.comment
@@ -131,14 +131,14 @@
             $stmt->bindParam(':student', $student);
             $stmt->execute();
 
-            // Display the reports
+            
             echo "<h3>Reports for " . htmlspecialchars($_POST['student']) . ":</h3>";
 
             $reportCount = 0;
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $reportCount++;
 
-                // Generate a card for each report
+                
                 echo "<div class='report-card'>
                         <h3>" . htmlspecialchars($row['subjectname']) . "</h3>
                         <div class='report-details'>
@@ -150,7 +150,7 @@
                     </div>";
             }
 
-            // If no reports exist
+            
             if ($reportCount == 0) {
                 echo "<p>No reports found for this student.</p>";
             }
