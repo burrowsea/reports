@@ -2,83 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Write Student Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Student Report</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e9f5ff;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        select, input[type="text"], input[type="number"], input[type="submit"], textarea {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 150px;
+        }
+
+        .grade-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .grade-button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .grade-button:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: #777;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .link a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Write Student Report</h2>
-    <form action="submitreport.php" method="POST">
-        <!-- Student Dropdown -->
-        <label for="student">Student:</label>
-        <select name="student" required>
-            <?php
-                include_once("connection.php");
-                // Get all students
-                $stmt = $conn->prepare("SELECT * FROM tblusers WHERE role=0 ORDER BY surname ASC");
-                $stmt->execute();
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<option value=".$row['userid'].">".$row['forename']." ".$row['surname']."</option>";
-                }
-            ?>
-        </select><br><br>
 
-        <!-- Subject Dropdown -->
-        <label for="subject">Subject:</label>
-        <select name="subject" required>
-            <?php
-                // Get all subjects
-                $stmt = $conn->prepare("SELECT * FROM tblsubjects ORDER BY subjectname ASC");
-                $stmt->execute();
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<option value=".$row['subjectid'].">".$row['subjectname']."</option>";
-                }
-            ?>
-        </select><br><br>
+    <div class="container">
+        <h2>Submit Student Report</h2>
 
-        <!-- Report Fields -->
-        <label for="exammark">Exam Mark:</label>
-        <input type="number" name="exammark" min="0" max="100" required><br><br>
+        <!-- Link to View Reports -->
+        <div class="link">
+            <a href="view_reports.php">View Existing Reports</a>
+        </div>
 
-        <label for="classgrade">Class Grade:</label>
-        <input type="text" name="classgrade" maxlength="1" required><br><br>
+        <!-- Report Submission Form -->
+        <div class="form-section">
+            <form action="submit_report.php" method="POST">
+                <label for="student">Select Student:</label>
+                <select name="student" required>
+                    <?php
+                    include_once("connection.php");
+                    // Get all students
+                    $stmt = $conn->prepare("SELECT * FROM tblusers WHERE role=0 ORDER BY surname ASC");
+                    $stmt->execute();
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value=".$row['userid'].">".$row['forename']." ".$row['surname']."</option>";
+                    }
+                    ?>
+                </select>
 
-        <label for="classposition">Class Position:</label>
-        <input type="number" name="classposition" min="1" required><br><br>
+                <label for="subject">Select Subject:</label>
+                <select name="subject" required>
+                    <?php
+                    // Get all subjects
+                    $stmt = $conn->prepare("SELECT * FROM tblsubjects ORDER BY subjectname ASC");
+                    $stmt->execute();
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value=".$row['subjectid'].">".$row['subjectname']."</option>";
+                    }
+                    ?>
+                </select>
 
-        <label for="comment">Comment:</label><br>
-        <textarea name="comment" rows="4" cols="50" required></textarea><br><br>
+                <label for="exammark">Exam Mark:</label>
+                <input type="number" name="exammark" required>
 
-        <input type="submit" value="Submit Report">
-    </form>
+                <label for="classposition">Class Position:</label>
+                <input type="number" name="classposition" required>
+
+                <label for="classgrade">Class Grade:</label>
+                <div class="grade-buttons">
+                    <button type="button" class="grade-button" onclick="setGrade('A')">A</button>
+                    <button type="button" class="grade-button" onclick="setGrade('B')">B</button>
+                    <button type="button" class="grade-button" onclick="setGrade('C')">C</button>
+                    <button type="button" class="grade-button" onclick="setGrade('D')">D</button>
+                    <button type="button" class="grade-button" onclick="setGrade('F')">F</button>
+                </div>
+
+                <input type="hidden" name="classgrade" id="classgrade">
+                
+                <label for="comment">Comment:</label>
+                <textarea name="comment" required></textarea>
+
+                <input type="submit" value="Submit Report">
+            </form>
+        </div>
+
+        <!-- Report Submission Confirmation -->
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Handle the form submission and insert the report
+            $student = $_POST['student'];
+            $subject = $_POST['subject'];
+            $exammark = $_POST['exammark'];
+            $classgrade = $_POST['classgrade'];
+            $classposition = $_POST['classposition'];
+            $comment = $_POST['comment'];
+
+            $stmt = $conn->prepare("
+                INSERT INTO tblpupilstudies (subjectid, userid, classposition, classgrade, exammark, comment)
+                VALUES (:subject, :student, :classposition, :classgrade, :exammark, :comment)
+            ");
+            $stmt->bindParam(':subject', $subject);
+            $stmt->bindParam(':student', $student);
+            $stmt->bindParam(':classposition', $classposition);
+            $stmt->bindParam(':classgrade', $classgrade);
+            $stmt->bindParam(':exammark', $exammark);
+            $stmt->bindParam(':comment', $comment);
+            $stmt->execute();
+
+            echo "<p style='color: green; text-align: center;'>Report successfully submitted!</p>";
+        }
+        ?>
+    </div>
+
+    <div class="footer">
+        <p>Super skibidi reports systems &copy; 1837</p>
+    </div>
+
+    <script>
+        function setGrade(grade) {
+            document.getElementById('classgrade').value = grade;
+        }
+    </script>
+
 </body>
 </html>
-
-<?php
-include_once("connection.php");
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get data from form
-    $student = $_POST['student'];
-    $subject = $_POST['subject'];
-    $exammark = $_POST['exammark'];
-    $classgrade = $_POST['classgrade'];
-    $classposition = $_POST['classposition'];
-    $comment = $_POST['comment'];
-
-    // Insert the report data into tblpupilstudies
-    $stmt = $conn->prepare("INSERT INTO tblpupilstudies (subjectid, userid, classposition, classgrade, exammark, comment) 
-                            VALUES (:subject, :student, :classposition, :classgrade, :exammark, :comment)");
-
-    $stmt->bindParam(':subject', $subject);
-    $stmt->bindParam(':student', $student);
-    $stmt->bindParam(':classposition', $classposition);
-    $stmt->bindParam(':classgrade', $classgrade);
-    $stmt->bindParam(':exammark', $exammark);
-    $stmt->bindParam(':comment', $comment);
-
-    if ($stmt->execute()) {
-        echo "Report submitted successfully.";
-    } else {
-        echo "Error submitting report.";
-    }
-}
-?>
