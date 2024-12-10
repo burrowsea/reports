@@ -61,7 +61,7 @@
         }
 
         .report-card:hover {
-            transform: scale(1.02);
+            transform: scale(1.005);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
@@ -96,7 +96,7 @@
     <div class="container">
         <h2>View Student Reports</h2>
 
-        >
+        
         <div class="form-section">
             <form action="viewreports.php" method="POST">
                 <label for="student">Select Student:</label>

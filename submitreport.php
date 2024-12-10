@@ -153,8 +153,7 @@
                     <button type="button" class="grade-button" onclick="setGrade('C')">C</button>
                     <button type="button" class="grade-button" onclick="setGrade('D')">D</button>
                     <button type="button" class="grade-button" onclick="setGrade('E')">E</button>
-                    <button type="button" class="grade-button" onclick="setGrade('F')">F</button>
-                    <button type="button" class="grade-button" onclick="setGrade('U')">U</button>
+                    
                 </div>
 
                 <input type="hidden" name="classgrade" id="classgrade">
@@ -177,9 +176,8 @@
             $classposition = $_POST['classposition'];
             $comment = $_POST['comment'];
 
-            $stmt = $conn->prepare("
-                INSERT INTO tblpupilstudies (subjectid, userid, classposition, classgrade, exammark, comment)
-                VALUES (:subject, :student, :classposition, :classgrade, :exammark, :comment)
+            $stmt = $conn->prepare("UPDATE tblpupilstudies SET classposition=:classposition,  WHERE subjectid=:subject AND userid=:student
+             
             ");
             $stmt->bindParam(':subject', $subject);
             $stmt->bindParam(':student', $student);
