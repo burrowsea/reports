@@ -176,7 +176,7 @@
             $classposition = $_POST['classposition'];
             $comment = $_POST['comment'];
 
-            $stmt = $conn->prepare("UPDATE tblpupilstudies SET classposition=:classposition,  WHERE subjectid=:subject AND userid=:student
+            $stmt = $conn->prepare("UPDATE tblpupilstudies SET classposition=:classposition, classgrade=:classgrade, exammark=:exammark, comment=:comment WHERE subjectid=:subject AND userid=:student
              
             ");
             $stmt->bindParam(':subject', $subject);
